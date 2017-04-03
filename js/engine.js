@@ -57,6 +57,8 @@ var Engine = (function(global) {
          * function again as soon as the browser is able to draw another frame.
          */
         win.requestAnimationFrame(main);
+
+
     }
 
     /* This function does some initial setup that should only occur once,
@@ -67,7 +69,6 @@ var Engine = (function(global) {
         reset();
         lastTime = Date.now();
         main();
-
     }
 
     /* This function is called by main (our game loop) and itself calls all
@@ -153,6 +154,7 @@ var Engine = (function(global) {
         });
 
         player.render();
+        round.render();
     }
 
     /* This function does nothing but it could have been a good place to
