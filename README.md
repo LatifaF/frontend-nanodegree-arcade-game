@@ -15,6 +15,7 @@ This is a simple game develope as aproject for [udacity front end web developmen
 ###To run the application:
 
 1- Download the GitHub zip file or clone the repository onto your local device
+
 2- Open a browser window and navigate to the index.html file in your application's directory.
 
 
