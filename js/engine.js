@@ -155,6 +155,7 @@ var Engine = (function(global) {
 
         player.render();
         round.render();
+
     }
 
     /* This function does nothing but it could have been a good place to
@@ -175,7 +176,11 @@ var Engine = (function(global) {
         'images/grass-block.png',
         'images/enemy-bug.png',
         'images/char-boy.png',
-        'images/char-princess-girl.png'
+        'images/char-princess-girl.png',
+        'images/Heart.png',
+        'images/Gem-Orange.png',
+        'images/Gem-Green.png',
+        'images/Gem-Blue.png'
     ]);
     Resources.onReady(init);
 
