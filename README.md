@@ -1,6 +1,21 @@
-frontend-nanodegree-arcade-game
-===============================
+#Welcome to Arcade Game - Frogger
+***********************
 
-Students should use this [rubric](https://review.udacity.com/#!/projects/2696458597/rubric) for self-checking their submission. Make sure the functions you write are **object-oriented** - either class functions (like Player and Enemy) or class prototype functions such as Enemy.prototype.checkCollisions, and that the keyword 'this' is used appropriately within your class and class prototype functions to refer to the object the function is called upon. Also be sure that the **readme.md** file is updated with your instructions on both how to 1. Run and 2. Play your arcade game.
+This is a simple game develope as aproject for [udacity front end web development nanodgree.](https://www.udacity.com/)
 
-For detailed instructions on how to get started, check out this [guide](https://docs.google.com/document/d/1v01aScPjSWCCWQLIpFqvg3-vXLH2e8_SZQKC8jNO0Dc/pub?embedded=true).
+###Here are the rules for this game:
+
+* try to move the princess player to the water using the arows in you keyboard, But be careful with the bugs *avoid colliding with them* or you will _loose a life_!!.. you have **5 lifes** so be careful :) , If you make to the water line you will get 500 points.
+
+* you will level up win you collect 1000 points, fouces when you level up the bugs will move faster.
+
+* You will see some gems and heart sometime, Collect a heart, star or key will give you an extra life, Collect a gem will give you 200 points
+
+
+###To run the application:
+
+1- Download the GitHub zip file or clone the repository onto your local device
+2- Open a browser window and navigate to the index.html file in your application's directory.
+
+
+##GOOD LUCK!!
