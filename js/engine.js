@@ -33,18 +33,23 @@ var Engine = (function(global) {
      * and handles properly calling the update and render methods.
      */
     function main() {
+
+
+
         /* Get our time delta information which is required if your game
          * requires smooth animation. Because everyone's computer processes
          * instructions at different speeds we need a constant value that
          * would be the same for everyone (regardless of how fast their
          * computer is) - hurray time!
          */
+
         var now = Date.now(),
             dt = (now - lastTime) / 1000.0;
 
         /* Call our update/render functions, pass along the time delta to
          * our update function since it may be used for smooth animation.
          */
+
         update(dt);
         render();
 
@@ -93,6 +98,9 @@ var Engine = (function(global) {
      * render methods.
      */
     function updateEntities(dt) {
+        // if(round.isPused === true)
+        //     return;
+
         allEnemies.forEach(function(enemy) {
             enemy.update(dt);
         });
@@ -180,7 +188,9 @@ var Engine = (function(global) {
         'images/Heart.png',
         'images/Gem-Orange.png',
         'images/Gem-Green.png',
-        'images/Gem-Blue.png'
+        'images/Gem-Blue.png',
+        'images/char-cat-girl.png',
+        'images/enemy-car.png'
     ]);
     Resources.onReady(init);
 

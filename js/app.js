@@ -6,49 +6,56 @@
 ////////////** enemy class ** ////////////
 // Enemies our player must avoid
 var Enemy = function(x,y) {
-    this.sprite = 'images/enemy-bug.png';
+    this.sprite = 'images/enemy-car.png';
     this.x = x;
     this.y = y;
     this.height = 60;
-    this.width = 60;
-    this.speed = 100;
+    this.width = 125;
+    this.speed = enemySpeed;
 };
 
 // Update the enemy's position, required method for game Parameter: dt, a time delta between ticks
 Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter which will ensure the game runs at the
     // same speed for all computers.
-    if ( this.x <= ctx.canvas.width)// the enemy with in the canvas
-        this.x += this.speed * dt;
-    else // to re locate the enemy at the start of the canvas
-        this.x = - getRandowmNumber(10,ctx.canvas.width);
-    // check if enemy eat the player while it is not moving
-    if (player.x < this.x + this.width && player.x + player.width > this.x
-        &&player.y < this.y + this.height && player.height + player.y > this.y)
-    {
-        player.x = 200;
-        player.y = 400;
-        round.scoreCalculation(-500);
-    }
+        if (player.x < this.x + this.width && player.x + player.width > this.x
+            &&player.y < this.y + this.height && player.height + player.y > this.y)
+        {
+            player.x = 200;
+            player.y = 400;
+            round.scoreCalculation(-500);
+        }
+
+        if ( this.x <= ctx.canvas.width)// the enemy with in the canvas
+            this.x += this.speed * dt;
+        else // to re locate the enemy at the start of the canvas
+            this.x = - getRandowmNumber(10,ctx.canvas.width);
+
+        //check if enemy eat the player while it is not moving
+
+
 };
 
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+
 };
 
 
 ////////////** Player class ** ////////////
 var Player = function(x,y) {
-    this.sprite = 'images/char-princess-girl.png';
+    this.sprite = playerChar[playerCharint];
     this.x = x;
     this.y = y;
-    this.height = 60;
+    this.height = 50;
     this.width = 50;
+    this.speed = playerSpeed;
 };
 
 Player.prototype.update = function(x,y) {
     //prevent player to move out side the canas
+
     if (this.y > 400) {
         y = 400;
     }
@@ -63,16 +70,6 @@ Player.prototype.update = function(x,y) {
 
     // check if player collect any items
     player.checkIsCollactable();
-
-    // check for collision
-    if(player.checkCollisions(allEnemies))
-    {
-        this.x = 200;
-        this.y = 400;
-        round.scoreCalculation(-500);
-    }
-    else
-    {
         this.x = x;
         this.y = y;
 
@@ -83,45 +80,64 @@ Player.prototype.update = function(x,y) {
             round.scoreCalculation(500);
             creatCollectable();
         }
-    }
+
 
 
 };
 
 Player.prototype.render = function() {
+
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+
 };
 
 Player.prototype.handleInput = function(moveDirction) {
     switch (moveDirction)
     {
         case 'left':
-            this.update(this.x -=  60, this.y);
+            this.update(this.x -=  player.speed, this.y);
             break;
         case 'up':
-            this.update(this.x, this.y -= 60);
+            this.update(this.x, this.y -= player.speed);
             break;
         case 'right':
-            this.update(this.x +=  60, this.y);
+            this.update(this.x +=  player.speed, this.y);
             break;
         case 'down':
-            this.update(this.x , this.y +=  60);
+            this.update(this.x , this.y +=  player.speed);
             break;
+        case 'puse':
+            round.isPused = !round.isPused;
+            if(round.isPused === true)
+            {
+                allEnemies.forEach(function(enemy)
+                {
+                    enemy.speed = 0;
+                });
+                player.speed = 0;
+            }
+            else
+            {
+                allEnemies.forEach(function(enemy)
+                {
+                    enemy.speed = enemySpeed;
+                });
+                player.speed = playerSpeed;
+            }
+            break;
+        case 'char':
+            playerCharint = playerCharint+1;
+            if(playerCharint > playerChar.length -1)
+                playerCharint=0;
+
+            player.sprite = playerChar[playerCharint];
+        break;
+
+
     }
 };
 
-// check if there is colliction bettwen the player and the enemys
-Player.prototype.checkCollisions = function(enemies){
-    var isCollide = false;
-    var player =this;
-    enemies.forEach(function(bug){
-        if (bug.x < player.x + player.width  && bug.x + bug.width  > player.x &&
-        bug.y < player.y + player.height && bug.y + bug.height > player.y){
-            isCollide = true;
-        }
-    });
-    return isCollide;
-};
+
 
 // check if the player collect any collectable items
 Player.prototype.checkIsCollactable = function(){
@@ -178,6 +194,8 @@ var Round = function(){
 };
 
 Round.prototype.render = function(){
+
+
     ctx.fillStyle = 'rgba(0,0,0,0.6)';
     ctx.fillRect(0,560, 707, 25);
 
@@ -192,7 +210,7 @@ Round.prototype.render = function(){
     // loop for drowing lifes hearts .. in the bottom based on the lifes count
     for(var count= 0 ; count < round.playerLifes; count++)
     {
-    ctx.drawImage(Resources.get('images/Heart.png'), (4 + (count * 18)), 560 , 20, 25);
+    ctx.drawImage(Resources.get('images/Heart.png'), (4+(count * 18)), 560 , 20, 25);
     }
 
 
@@ -202,6 +220,8 @@ Round.prototype.render = function(){
     for (var i = 0 ; i < collectableGems.length; i++) {
         ctx.drawImage(Resources.get(collectableGems[i].sprite), collectableGems[i].x, collectableGems[i].y, 60, 100);
     }
+
+
 };
 
 // calculate score after each try
@@ -220,6 +240,7 @@ Round.prototype.scoreCalculation = function (roundScore)
         allEnemies.forEach(function(enemy) {
             enemy.speed *= (round.playerLevel / 2);
         });
+        enemySpeed = enemy.speed * (round.playerLevel / 2);
     }
 
 }
@@ -237,20 +258,23 @@ Round.prototype.gameOver = function (){
 
 /////////////////////////////
 ///////// declering varibales
+var enemySpeed = 100;
+var playerSpeed = 60;
+var playerCharint =0;
+var playerChar = ['images/char-boy.png','images/char-princess-girl.png','images/char-cat-girl.png'];
 var allEnemies = [];
-var enemyPosition = [60, 120, 180, 240];
+var enemyPosition = [100, 160, 220, 280];
 var player = new Player(200, 400);
 var round = new Round();
 var collectableGems = [];
 var collectableHeart;
 creatEnemies();
 creatCollectable();
-
 function creatEnemies()
 {
 var enemy;
 enemyPosition.forEach(function(posY) {
-    enemy = new Enemy(100 + getRandowmNumber(0,512), posY);
+    enemy = new Enemy(getRandowmNumber(0,512), posY);
     allEnemies.push(enemy);
 });
 }
@@ -295,8 +319,12 @@ document.addEventListener('keyup', function(e) {
         37: 'left',
         38: 'up',
         39: 'right',
-        40: 'down'
+        40: 'down',
+        67: 'char',
+        80: 'puse'
+
+
     };
-    if(!round.isPused)
-        player.handleInput(allowedKeys[e.keyCode]);
+    // if(!round.isPused)
+     player.handleInput(allowedKeys[e.keyCode]);
 });
