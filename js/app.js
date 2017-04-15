@@ -10,7 +10,7 @@ var Enemy = function(x,y) {
     this.x = x;
     this.y = y;
     this.height = 60;
-    this.width = 125;
+    this.width = 100;
     this.speed = enemySpeed;
 };
 
@@ -48,8 +48,8 @@ var Player = function(x,y) {
     this.sprite = playerChar[playerCharint];
     this.x = x;
     this.y = y;
-    this.height = 50;
-    this.width = 50;
+    this.height = 95;
+    this.width = 55;
     this.speed = playerSpeed;
 };
 
@@ -236,11 +236,11 @@ Round.prototype.scoreCalculation = function (roundScore)
     if(round.winCount / round.playerLevel >= 1000)
     {
         round.playerLevel++;
+        enemySpeed = enemySpeed * (round.playerLevel / 2);
         // increse the speed when the level gose up
         allEnemies.forEach(function(enemy) {
             enemy.speed *= (round.playerLevel / 2);
         });
-        enemySpeed = enemy.speed * (round.playerLevel / 2);
     }
 
 }
